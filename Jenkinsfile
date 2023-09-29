@@ -18,14 +18,19 @@ pipeline {
                 sh "mvn clean"
             }
         }
-        stage("test the project") {
+        stage("Test the project") {
             steps {
                 sh "mvn test"
             }
         }
-        stage("install the project") {
+        stage("Package the project") {
             steps {
                 sh "mvn package"
+            }
+        }
+        stage("Dockerize and push to GitHub){
+            steps{
+                sh "In progress"
             }
         }
     }
