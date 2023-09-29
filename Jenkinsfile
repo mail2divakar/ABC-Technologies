@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'worker-1'
+    }
     stages {
         stage("Clone Git Repository") {
             steps {
@@ -23,7 +25,7 @@ pipeline {
         }
         stage("install the project") {
             steps {
-                sh "mvn install"
+                sh "mvn package"
             }
         }
     }
