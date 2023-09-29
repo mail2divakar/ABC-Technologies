@@ -28,9 +28,21 @@ pipeline {
                 sh "mvn package"
             }
         }
-        stage("Dockerize and push to GitHub"){
+        stage('Build docker image'){
             steps{
-                sh "In progress"
+                script{
+                    sh 'docker build -t javatechie/devops-integration .'
+                }
+            }
+        }
+        stage('Push image to Hub'){
+            steps{
+                script{
+                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                   sh 'docker login -u javatechie -p ${dockerhubpwd}'
+                   }
+                   sh 'docker push javatechie/devops-integration'
+                }
             }
         }
     }
