@@ -38,13 +38,13 @@ pipeline {
         stage('Push image to Hub'){
             steps{
                 script{
-                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                    sh 'docker login -u divakarpgpdevops -p ${dockerhubpwd}'
+
+                    withCredentials([usernamePassword(credentialsId: 'dockerhubaccount', passwordVariable: 'dockerhubaccount', usernameVariable: 'divakarpgpdevops')]) {
+                	sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                    sh 'docker push divakarpgpdevops/pgp-project'
                     }
-                   sh 'docker push divakarpgpdevops/pgp-project'
                 }
             }
         }
-    }
-    
+    }   
 }
