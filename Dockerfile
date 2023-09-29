@@ -1,6 +1,6 @@
 FROM docker.io/library/ubuntu:latest
 RUN apt-get -y update && apt-get -y upgrade
-RUN apt-get -y install openjdk-8-jdk wget
+RUN apt-get -y install openjdk-11-jdk wget
 RUN mkdir /usr/local/tomcat
 ADD https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.68/bin/apache-tomcat-9.0.68.tar.gz  /tmp/apache-tomcat-9.0.68.tar.gz
 RUN cd /tmp &&  tar xvfz apache-tomcat-9.0.68.tar.gz
