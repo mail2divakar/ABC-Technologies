@@ -28,7 +28,7 @@ pipeline {
                 sh "mvn package"
             }
         }
-        stage("Dockerize and push to GitHub){
+        stage("Dockerize and push to GitHub"){
             steps{
                 sh "In progress"
             }
