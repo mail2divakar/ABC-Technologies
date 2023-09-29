@@ -2,6 +2,9 @@ pipeline {
     agent {
         label 'worker-1'
     }
+    environment {     
+    DOCKERHUB_CREDENTIALS= credentials('dockerhubaccount')     
+    }
     stages {
         stage("Clone Git Repository") {
             steps {
@@ -35,16 +38,25 @@ pipeline {
                 }
             }
         }
+
         stage('Push image to Hub'){
             steps{
                 script{
-
-                    withCredentials([usernamePassword(credentialsId: 'dockerhubaccount', passwordVariable: 'dockerhubaccount', usernameVariable: 'divakarpgpdevops')]) {
-                	sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-                    sh 'docker push divakarpgpdevops/pgp-project'
+					withCredentials([usernamePassword(credentialsId: 'dockerhubaccount', passwordVariable: 'password', usernameVariable: 'username')]){
+							 sh '''
+								echo "${password} | docker login -u ${username} --password-stdin"
+							 '''
+                    sh 'docker push divakarpgpdevops/pgp-project'  
+					echo 'Push Image Completed'
                     }
-                }
-            }
-        }
-    }   
+				
+				}
+			}
+		}
+	}
+	post{
+		always {  
+			sh 'docker logout'           
+		}      
+	}    
 }
