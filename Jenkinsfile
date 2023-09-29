@@ -25,23 +25,23 @@ pipeline {
         }
         stage("Package the project") {
             steps {
-                sh "mvn package"
+                sh "mvn package -DskipTests"
             }
         }
         stage('Build docker image'){
             steps{
                 script{
-                    sh 'docker build -t javatechie/devops-integration .'
+                    sh 'docker build -t divakarpgpdevops/pgp-project .'
                 }
             }
         }
         stage('Push image to Hub'){
             steps{
                 script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u javatechie -p ${dockerhubpwd}'
-                   }
-                   sh 'docker push javatechie/devops-integration'
+                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
+                    sh 'docker login -u divakarpgpdevops -p ${dockerhubpwd}'
+                    }
+                   sh 'docker push divakarpgpdevops/pgp-project'
                 }
             }
         }
